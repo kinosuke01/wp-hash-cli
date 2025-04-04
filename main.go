@@ -20,50 +20,50 @@ func main() {
 	case "verify":
 		handleVerify()
 	default:
-		fmt.Printf("不明なコマンド: %s\n", os.Args[1])
+		fmt.Printf("Unknown command: %s\n", os.Args[1])
 		printUsage()
 		os.Exit(1)
 	}
 }
 
 func printUsage() {
-	fmt.Println("使用方法: wp-hash-cli <command> [options]")
-	fmt.Println("コマンド:")
-	fmt.Println("  hash   - パスワードをハッシュ化")
-	fmt.Println("    オプション:")
-	fmt.Println("      -p string  ハッシュ化するパスワード")
+	fmt.Println("Usage: wp-hash-cli <command> [options]")
+	fmt.Println("Commands:")
+	fmt.Println("  hash   - Hash a password")
+	fmt.Println("    Options:")
+	fmt.Println("      -p string  Password to hash")
 	fmt.Println()
-	fmt.Println("  verify - パスワードとハッシュを検証")
-	fmt.Println("    オプション:")
-	fmt.Println("      -p string  検証するパスワード")
-	fmt.Println("      -h string  検証するハッシュ")
+	fmt.Println("  verify - Verify a password and hash")
+	fmt.Println("    Options:")
+	fmt.Println("      -p string  Password to verify")
+	fmt.Println("      -h string  Hash to verify against")
 }
 
 func handleHash() {
 	cmd := flag.NewFlagSet("hash", flag.ExitOnError)
-	password := cmd.String("p", "", "ハッシュ化するパスワード")
+	password := cmd.String("p", "", "Password to hash")
 	cmd.Parse(os.Args[2:])
 
 	if *password == "" {
-		fmt.Println("エラー: パスワードを指定してください (-p オプション)")
+		fmt.Println("Error: Please specify a password (-p option)")
 		os.Exit(1)
 	}
 
 	hash := wphash.HashPassword(*password)
-	fmt.Printf("パスワード <%s> のハッシュ結果: <%s>\n", *password, hash)
+	fmt.Printf("Password <%s> hash result: <%s>\n", *password, hash)
 }
 
 func handleVerify() {
 	cmd := flag.NewFlagSet("verify", flag.ExitOnError)
-	password := cmd.String("p", "", "検証するパスワード")
-	hash := cmd.String("h", "", "検証するハッシュ")
+	password := cmd.String("p", "", "Password to verify")
+	hash := cmd.String("h", "", "Hash to verify against")
 	cmd.Parse(os.Args[2:])
 
 	if *password == "" || *hash == "" {
-		fmt.Println("エラー: パスワードとハッシュの両方を指定してください (-p と -h オプション)")
+		fmt.Println("Error: Please specify both password and hash (-p and -h options)")
 		os.Exit(1)
 	}
 
 	match := wphash.CheckWordPressPasswordHash(*password, *hash)
-	fmt.Printf("パスワード <%s> とハッシュ <%s> の検証結果: %t\n", *password, *hash, match)
+	fmt.Printf("Password <%s> verify result with hash <%s>: %t\n", *password, *hash, match)
 }
