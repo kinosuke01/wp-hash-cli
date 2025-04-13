@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	wphash "github.com/thundernet8/wordpress-hash-go"
+	"github.com/kinosuke01/wp-hash-cli/wphash"
 )
 
 func main() {
