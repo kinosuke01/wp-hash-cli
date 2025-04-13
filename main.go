@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"os"
@@ -50,7 +51,12 @@ func handleHash() {
 	}
 
 	hash := wphash.HashPassword(*password)
-	fmt.Printf("Password <%s> hash result: <%s>\n", *password, hash)
+	result := map[string]string{
+		"password": *password,
+		"hash":     hash,
+	}
+	jsonOutput, _ := json.Marshal(result)
+	fmt.Println(string(jsonOutput))
 }
 
 func handleVerify() {
@@ -65,5 +71,11 @@ func handleVerify() {
 	}
 
 	match := wphash.CheckWordPressPasswordHash(*password, *hash)
-	fmt.Printf("Password <%s> verify result with hash <%s>: %t\n", *password, *hash, match)
+	result := map[string]interface{}{
+		"password": *password,
+		"hash":     *hash,
+		"match":    match,
+	}
+	jsonOutput, _ := json.Marshal(result)
+	fmt.Println(string(jsonOutput))
 }

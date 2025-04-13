@@ -36,10 +36,10 @@ wp-hash-cli verify -p "your-password" -h "$P$B..."
 ```bash
 # Hash a password
 $ wp-hash-cli hash -p "123456"
-Password <123456> hash result: <$P$B...>
+{"password":"123456","hash":"$P$B..."}
 
 # Verify a password and hash
 $ wp-hash-cli verify -p "123456" -h "$P$B..."
-Password <123456> verify result with hash <$P$B...>: true
+{"password":"123456","hash":"$P$B...","match":true}
 ```
 
