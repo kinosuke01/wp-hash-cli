@@ -93,9 +93,9 @@ func genRandomStr(length int) string {
 	seed := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 	total := len(seed)
 	var str []byte
-	rand.Seed(time.Now().UnixNano())
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	for i := 0; i < length; i++ {
-		char := seed[rand.Intn(total)]
+		char := seed[r.Intn(total)]
 		str = append(str, char)
 	}
 	return string(str)
